@@ -18,27 +18,32 @@ const Home = () => {
 				},
 			})
 				// las promesas
-				.then((response) => response.json())
+				.then((resp) => {
+					console.log(resp.ok); // will be true if the response is successfull
+					console.log(resp.status); // the status code = 200 or code = 400 etc.
+					console.log(resp.text()); // will try return the exact result as string
+					return resp.json(); // (returns promise) will try to parse the result as json as return a promise that you can .then for results
+				})
 				.then((data) => setNewlist(data));
 		};
 		getTodo();
 	}, []);
 
-	useEffect(() => {
-		const getTodo = () => {
-			fetch("https://assets.breatheco.de/apis/fake/todos/user/joaquinA", {
-				method: "PUT",
-				body: JSON.stringify(getTodo),
-				headers: {
-					"Content-Type": "application/json",
-				},
-			})
-				// las promesas
-				.then((response) => response.json())
-				.then((data) => setNewlist(data));
-		};
-		getTodo();
-	}, []);
+	// useEffect(() => {
+	// 	const getTodo = () => {
+	// 		fetch("https://assets.breatheco.de/apis/fake/todos/user/joaquinA", {
+	// 			method: "PUT",
+	// 			body: JSON.stringify(getTodo),
+	// 			headers: {
+	// 				"Content-Type": "application/json",
+	// 			},
+	// 		})
+	// 			// las promesas
+	// 			.then((response) => response.json())
+	// 			.then((data) => setNewlist(data));
+	// 	};
+	// 	getTodo();
+	// }, []);
 
 	const updatelist = ({ target }) => {
 		// Update query onKeyPress of input box
