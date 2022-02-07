@@ -7,26 +7,35 @@ import rigoImage from "../../img/rigo-baby.jpg";
 const Home = () => {
 	const [todolist, setTodolist] = useState([]);
 	const [newlist, setNewlist] = useState("");
+	const [info, setInfo] = useState([]);
+
+	// useEffect(() => {
+	// // 	const getTodo = () => {
+	// // 		fetch("https://assets.breatheco.de/apis/fake/todos/user/joaquinA", {
+	// // 			method: "GET",
+	// // 			body: JSON.stringify(getTodo),
+	// // 			headers: {
+	// // 				"Content-Type": "application/json",
+	// // 			},
+	// // 		})
+	// // 			// las promesas
+	// // 			.then((resp) => {
+	// // 				// console.log(resp.ok); // will be true if the response is successfull
+	// // 				// console.log(resp.status); // the status code = 200 or code = 400 etc.
+	// // 				// console.log(resp.text()); // will try return the exact result as string
+	// // 				return resp.json(); // (returns promise) will try to parse the result as json as return a promise that you can .then for results
+	// // 			})
+	// // 			.then((data) => setInfo(data));
+	// // 	};
+	// // 	getTodo();
+	// // }, []);
 
 	useEffect(() => {
-		const getTodo = () => {
-			fetch("https://assets.breatheco.de/apis/fake/todos/user/joaquinA", {
-				method: "GET",
-				body: JSON.stringify(getTodo),
-				headers: {
-					"Content-Type": "application/json",
-				},
-			})
-				// las promesas
-				.then((resp) => {
-					console.log(resp.ok); // will be true if the response is successfull
-					console.log(resp.status); // the status code = 200 or code = 400 etc.
-					console.log(resp.text()); // will try return the exact result as string
-					return resp.json(); // (returns promise) will try to parse the result as json as return a promise that you can .then for results
-				})
-				.then((data) => setNewlist(data));
-		};
-		getTodo();
+		// codigo aqui
+		fetch("https://assets.breatheco.de/apis/fake/todos/user/joaquinA")
+			// las promesas
+			.then((response) => response.json()) // a la respuesta pasamela a tipo json
+			.then((data) => setInfo(data)); //
 	}, []);
 
 	// useEffect(() => {
@@ -67,6 +76,11 @@ const Home = () => {
 			<button onClick={() => setTodolist([...todolist, newlist])}>
 				Add Item
 			</button>
+			<div>
+				{info.map((info, i) => (
+					<li key={i}>{info.label}</li>
+				))}
+			</div>
 		</div>
 	);
 };
