@@ -5,71 +5,45 @@ import rigoImage from "../../img/rigo-baby.jpg";
 
 //create your first component
 const Home = () => {
-	const [todo, setTodo] = useState([]);
+	const [todo, setTodo] = useState("");
 	const [listTodos, setListTodos] = useState([]);
 	const handleSumbit = (e) => {
 		e.preventDefault();
 		setTodo("");
-		setListTodos([...listTodos, { id: listTodos.length, name: todo }]);
+		setListTodos([...listTodos, { label: todo, done: false }]);
+		updateList([...listTodos, { label: todo, done: false }]);
 	};
-	const deleteTodo = (id) => {
-		setListTodos(listTodos.filter((item) => item.id !== id));
+	const deleteTodo = (label) => {
+		const updatedList = listTodos.filter((item) => item.label !== label);
+		updateList(updatedList);
+		setListTodos(updatedList);
 	};
-	// const [todolist, setTodolist] = useState([]);
-	// const [newlist, setNewlist] = useState("");
-	// const [info, setInfo] = useState([]);
 
-	// useEffect(() => {
-	// // 	const getTodo = () => {
-	// // 		fetch("https://assets.breatheco.de/apis/fake/todos/user/joaquinA", {
-	// // 			method: "GET",
-	// // 			body: JSON.stringify(getTodo),
-	// // 			headers: {
-	// // 				"Content-Type": "application/json",
-	// // 			},
-	// // 		})
-	// // 			// las promesas
-	// // 			.then((resp) => {
-	// // 				// console.log(resp.ok); // will be true if the response is successfull
-	// // 				// console.log(resp.status); // the status code = 200 or code = 400 etc.
-	// // 				// console.log(resp.text()); // will try return the exact result as string
-	// // 				return resp.json(); // (returns promise) will try to parse the result as json as return a promise that you can .then for results
-	// // 			})
-	// // 			.then((data) => setInfo(data));
-	// // 	};
-	// // 	getTodo();
-	// // }, []);
+	function updateList(updatedList) {
+		fetch("https://assets.breatheco.de/apis/fake/todos/user/joaquinA", {
+			method: "PUT",
+			body: JSON.stringify(updatedList),
+			headers: {
+				"Content-Type": "application/json",
+			},
+		})
+			.then((resp) => {
+				return resp.json();
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	}
 
-	// useEffect(() => {
-	// 	// codigo aqui
-	// 	fetch("https://assets.breatheco.de/apis/fake/todos/user/joaquinA")
-	// 		// las promesas
-	// 		.then((response) => response.json()) // a la respuesta pasamela a tipo json
-	// 		.then((data) => setInfo(data)); //
-	// }, []);
+	function getList() {
+		fetch("https://assets.breatheco.de/apis/fake/todos/user/joaquinA")
+			.then((response) => response.json())
+			.then((data) => setListTodos(data));
+	}
 
-	// useEffect(() => {
-	// 	const getTodo = () => {
-	// 		fetch("https://assets.breatheco.de/apis/fake/todos/user/joaquinA", {
-	// 			method: "PUT",
-	// 			body: JSON.stringify(getTodo),
-	// 			headers: {
-	// 				"Content-Type": "application/json",
-	// 			},
-	// 		})
-	// 			// las promesas
-	// 			.then((response) => response.json())
-	// 			.then((data) => setNewlist(data));
-	// 	};
-	// 	getTodo();
-	// }, []);
-
-	// const updatelist = ({ target }) => {
-	// 	// Update query onKeyPress of input box
-	// 	setNewlist(target.value);
-	// };
-
-	// const Search = ({ newlist }) => <li>{newlist}</li>;
+	useEffect(() => {
+		getList();
+	}, []);
 
 	return (
 		<div className="fondo">
@@ -98,11 +72,11 @@ const Home = () => {
 						className="button btn btn-primary"></button>
 					<ul className="container mt-4 listOfTodos justify-content-center">
 						{listTodos.map((item) => (
-							<li className="todoName mt-2" key={item.id}>
-								{item.name}
+							<li className="todoName mt-2" key={item.label}>
+								{item.label}
 								<i
 									className="basurita bi bi-trash align-items-end"
-									onClick={() => deleteTodo(item.id)}></i>
+									onClick={() => deleteTodo(item.label)}></i>
 							</li>
 						))}
 					</ul>
