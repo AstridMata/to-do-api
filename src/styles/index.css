@@ -10,3 +10,38 @@
     import 'relative/path/to/stylesheet.scss';
 
 */
+.fondo{
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    overflow: auto;
+    background-color: black;
+}
+
+.todoframe{
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    overflow: auto;
+    background-color: #F4F1F2;
+    width: 600px;
+}
+
+.title{
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 80px;
+    color: #EBDADB;
+}
+
+.button {
+    display: none;
+}
+
+
+.listOfTodos{
+    list-style-type: none;
+}

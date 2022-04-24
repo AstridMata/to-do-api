@@ -5,9 +5,19 @@ import rigoImage from "../../img/rigo-baby.jpg";
 
 //create your first component
 const Home = () => {
-	const [todolist, setTodolist] = useState([]);
-	const [newlist, setNewlist] = useState("");
-	const [info, setInfo] = useState([]);
+	const [todo, setTodo] = useState([]);
+	const [listTodos, setListTodos] = useState([]);
+	const handleSumbit = (e) => {
+		e.preventDefault();
+		setTodo("");
+		setListTodos([...listTodos, { id: listTodos.length, name: todo }]);
+	};
+	const deleteTodo = (id) => {
+		setListTodos(listTodos.filter((item) => item.id !== id));
+	};
+	// const [todolist, setTodolist] = useState([]);
+	// const [newlist, setNewlist] = useState("");
+	// const [info, setInfo] = useState([]);
 
 	// useEffect(() => {
 	// // 	const getTodo = () => {
@@ -30,13 +40,13 @@ const Home = () => {
 	// // 	getTodo();
 	// // }, []);
 
-	useEffect(() => {
-		// codigo aqui
-		fetch("https://assets.breatheco.de/apis/fake/todos/user/joaquinA")
-			// las promesas
-			.then((response) => response.json()) // a la respuesta pasamela a tipo json
-			.then((data) => setInfo(data)); //
-	}, []);
+	// useEffect(() => {
+	// 	// codigo aqui
+	// 	fetch("https://assets.breatheco.de/apis/fake/todos/user/joaquinA")
+	// 		// las promesas
+	// 		.then((response) => response.json()) // a la respuesta pasamela a tipo json
+	// 		.then((data) => setInfo(data)); //
+	// }, []);
 
 	// useEffect(() => {
 	// 	const getTodo = () => {
@@ -54,32 +64,49 @@ const Home = () => {
 	// 	getTodo();
 	// }, []);
 
-	const updatelist = ({ target }) => {
-		// Update query onKeyPress of input box
-		setNewlist(target.value);
-	};
+	// const updatelist = ({ target }) => {
+	// 	// Update query onKeyPress of input box
+	// 	setNewlist(target.value);
+	// };
 
-	const Search = ({ newlist }) => <li>{newlist}</li>;
+	// const Search = ({ newlist }) => <li>{newlist}</li>;
 
 	return (
-		<div className="container">
-			<ul className="list-group">
-				<input onChange={updatelist}></input>
-				{todolist.map((newlist, i) => (
-					<Search
-						newlist={newlist}
-						// Prevent duplicate keys by appending index:
-						key={newlist + i}
-					/>
-				))}
-			</ul>
-			<button onClick={() => setTodolist([...todolist, newlist])}>
-				Add Item
-			</button>
-			<div>
-				{info.map((info, i) => (
-					<li key={i}>{info.label}</li>
-				))}
+		<div className="fondo">
+			<div className="container todoframe">
+				<div>
+					<p className="title text-center">Todos</p>
+				</div>
+				<form
+					onSubmit={handleSumbit}
+					noValidate
+					className="formulario align-items-center">
+					<div className="col-auto">
+						<label
+							htmlFor="exampleInputEmail1"
+							className="form-label"></label>
+						<input
+							className="form-control form-control-sm"
+							id="listTodos"
+							list="todos"
+							onChange={(e) => setTodo(e.target.value)}
+							value={todo}
+						/>
+					</div>
+					<button
+						type="submit"
+						className="button btn btn-primary"></button>
+					<ul className="container mt-4 listOfTodos justify-content-center">
+						{listTodos.map((item) => (
+							<li className="todoName mt-2" key={item.id}>
+								{item.name}
+								<i
+									className="basurita bi bi-trash align-items-end"
+									onClick={() => deleteTodo(item.id)}></i>
+							</li>
+						))}
+					</ul>
+				</form>
 			</div>
 		</div>
 	);
