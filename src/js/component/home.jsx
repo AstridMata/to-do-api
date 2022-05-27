@@ -49,7 +49,7 @@ const Home = () => {
 		<div className="fondo">
 			<div className="container todoframe">
 				<div>
-					<p className="title text-center">Todos</p>
+					<p className="title text-center">To Do List</p>
 				</div>
 				<form
 					onSubmit={handleSumbit}
